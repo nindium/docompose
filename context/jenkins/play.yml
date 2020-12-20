@@ -1,0 +1,6 @@
+---
+- hosts: test
+  tasks:
+    - shell: echo "Hello, Cloudiar" > /tmp/ansible-file.txt
+
+

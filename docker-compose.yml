@@ -1,0 +1,59 @@
+version: '3'
+services:
+  jenkins:
+    container_name: jenkins
+    hostname: 'jenkins'
+    image: jenkins-ansible
+    build:
+      context: ${PDIR}/context/jenkins
+    ports: 
+      - "8080:8080"
+    volumes:
+      - "${VOLUME_DIR}/jenkins_home:/var/jenkins_home"
+    networks:
+      - app_net
+  remote_host:
+    container_name: remote_host
+    hostname: 'remote_host'
+    image: remote_host
+    build:
+      context: ${PDIR}/context/remote_host
+    volumes:
+      - "${VOLUME_DIR}/remote_host/aws-s3.sh:/tmp/script.sh"
+    networks:
+      - app_net
+  db_host:
+    container_name: db
+    hostname: 'db'
+    image: mysql:5.7
+    environment:
+      - "MYSQL_ROOT_PASSWORD=1234"
+    volumes:
+      - "${VOLUME_DIR}/db_data:/var/lib/mysql"
+    networks:
+      - app_net
+
+
+  web:
+    container_name: web
+    hostname: web
+    image: ansible-web
+    build:
+      context: ${PDIR}/context/web
+    ports:
+      - "80:80"
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    driver: bridge
+    enable_ipv6: false
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
+          gateway: 10.0.0.1
+    driver_opts:
+      com.docker.network.bridge.name: br-app_net
+
+

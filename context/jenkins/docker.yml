@@ -1,0 +1,9 @@
+---
+- name: This job is parametrized
+  hosts: centos
+  
+  tasks:
+  - name: Display debug message 
+    debug:
+      msg: "{{ MSG }}"
+  
