@@ -1,6 +1,5 @@
 Create application to retrieve data from MySQL DB
-and display it in nginx web-server.
-Ansible and Jenkins used as CI/CD tools.
-All docker conteiners and images are reated with docker-compose.
+and display it in nginx web-server using Ansible, Jenkins, Docker.
+All docker containers and images are created with docker-compose.
 DB backup is stored into AWS S3 bucket. 
 
